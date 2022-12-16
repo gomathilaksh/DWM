@@ -1,0 +1,709 @@
+{
+	"variables": [],
+	"info": {
+		"name": "WalletService",
+		"_postman_id": "f341aaa0-2cef-3c17-c940-62a46988264e",
+		"description": "Wallet microservice that manages credit/debit transactions on behalf of players.\n\nIt includes\n1) PlayerMaintenance\n2) TransactionMaintenance\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PlayerMaintenance",
+			"description": "PlayerMaintenanceController - RESTController that is used to maintain player account.\nIt performs CRUD Operations like createPlayer, getPlayer, updatePlayer and deletePlayer.\nIn addition, a special feature is introduced to capture all the ongoing activities in player account and wallet account.\ngetAuditHistory service will provides all the audits captured, in the response for the given input playerId.",
+			"item": [
+				{
+					"name": "createPlayer",
+					"request": {
+						"url": "http://localhost:8080/player",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"GOMATHI\",\n    \"lastName\": \"THIVYAM\",\n    \"email\": \"gomathi@gmail.com\",\n    \"country\": \"India\"\n    \n}"
+						},
+						"description": "createPlayer is used to create the Player account.\nThis service will also create a wallet account linked to a player.\nConditions applied:\n1) Unique playerId is created for each player and provided in the response and he has to use the playerId for all the operations including check wallet balance, perform transactions and so.\n2) Initially Zero balance wallet account will be created.\n3) Each wallet account should have unique id and unique random 6 digit number as wallet account Number.\n3) currencyCode is determined based on the country mentioned by the player. Player should not have control to change the CurrencyCode.\n4) emailId specified by the player should be unique during player creation\nURL : http://localhost:8080/player"
+					},
+					"response": [
+						{
+							"id": "90c61bfd-463e-43d9-916c-13d7f5b7f882",
+							"name": "createPlayer",
+							"originalRequest": {
+								"url": "http://localhost:8080/player",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"firstName\": \"GOMATHI\",\n    \"lastName\": \"THIVYAM\",\n    \"email\": \"gomathi@gmail.com\",\n    \"country\": \"India\"\n    \n}"
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Tue, 13 Dec 2022 21:19:18 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 747,
+							"body": "{\"id\":28,\"firstName\":\"GOMATHI\",\"lastName\":\"THIVYAM\",\"email\":\"gomathi@gmail.com\",\"createdDate\":\"2022-12-13T21:19:18.702+00:00\",\"country\":\"India\"}"
+						}
+					]
+				},
+				{
+					"name": "getPlayer",
+					"request": {
+						"url": "http://localhost:8080/player/28",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "GetPlayer is used to fetch player details when we provide playerId\nURL : http://localhost:8080/player/28\n"
+					},
+					"response": [
+						{
+							"id": "874c4c02-9324-4aa8-8812-a7eb6412ff45",
+							"name": "getPlayer",
+							"originalRequest": {
+								"url": "http://localhost:8080/player/28",
+								"method": "GET",
+								"header": [],
+								"body": {}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 15:06:48 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 424,
+							"body": "{\"id\":28,\"firstName\":\"GOMATHI\",\"lastName\":\"LAKSHMAN\",\"email\":\"gomathi18@gmail.com\",\"createdDate\":\"2022-12-13T21:19:18.702+00:00\",\"country\":\"India\"}"
+						}
+					]
+				},
+				{
+					"name": "updatePlayer",
+					"request": {
+						"url": "http://localhost:8080/player",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 28,\n    \"firstName\": \"GOMATHI\",\n    \"lastName\": \"LAKSHMAN\",\n    \"email\": \"gomathi18@gmail.com\",\n    \"createdDate\": \"2022-12-13T21:19:18.702+00:00\",\n    \"country\": \"India\"\n\n}"
+						},
+						"description": "updatePlayer is used to update player details.\nConditions applied:\n1) Player should not have the permission to change the Country after creation.\nThe reason being, currencyCode of the wallet account is determined based on the country. If we have the provision of changing the country, the existing wallet balance needs to be emptied in the existing player.(Hint: 5.0EUR is not equal to 5.0INR)\nURL : http://localhost:8080/player"
+					},
+					"response": [
+						{
+							"id": "f6283d13-4810-45c1-b8b4-df93523e026c",
+							"name": "updatePlayer",
+							"originalRequest": {
+								"url": "http://localhost:8080/player",
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 28,\n    \"firstName\": \"GOMATHI\",\n    \"lastName\": \"LAKSH\",\n    \"email\": \"gomathi18@gmail.com\",\n    \"createdDate\": \"2022-12-13T21:19:18.702+00:00\",\n    \"country\": \"India\"\n\n}"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 15:16:20 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 236,
+							"body": "{\"message\":\"Record updated for playerId :: 28\"}"
+						}
+					]
+				},
+				{
+					"name": "deletePlayer",
+					"request": {
+						"url": "http://localhost:8080/player/16",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": "deletePlayer is used to delete the player based on the input playerId.\nThis is also responsible for deleting the wallet account linked with the player.\nURL : http://localhost:8080/player/16"
+					},
+					"response": [
+						{
+							"id": "e3ad976b-4063-4410-bfb3-02153fa55a4f",
+							"name": "deletePlayer",
+							"originalRequest": {
+								"url": "http://localhost:8080/player/16",
+								"method": "DELETE",
+								"header": [],
+								"body": {}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 15:20:56 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 450,
+							"body": "{\"message\":\"Record Deleted for PlayerId :: 16\"}"
+						}
+					]
+				},
+				{
+					"name": "getAuditHistory",
+					"request": {
+						"url": "http://localhost:8080/player/auditHistory/27",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "getAuditHistory is used to fetch activity details of the player by providing playerId as input.\nURL : http://localhost:8080/player/auditHistory/27"
+					},
+					"response": [
+						{
+							"id": "c0215a33-3206-4631-9b03-43d4430a86b0",
+							"name": "getAuditHistory",
+							"originalRequest": {
+								"url": "http://localhost:8080/player/auditHistory/27",
+								"method": "GET",
+								"header": [],
+								"body": {}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Tue, 13 Dec 2022 21:08:40 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 60,
+							"body": "[{\"id\":42,\"playerId\":27,\"creationDate\":\"2022-12-13T21:01:01.581+00:00\",\"auditCode\":\"001\",\"auditDescription\":\"Player created\"},{\"id\":43,\"playerId\":27,\"creationDate\":\"2022-12-13T21:01:01.599+00:00\",\"auditCode\":\"004\",\"auditDescription\":\"Wallet account created\"},{\"id\":44,\"playerId\":27,\"creationDate\":\"2022-12-13T21:03:14.038+00:00\",\"auditCode\":\"002\",\"auditDescription\":\"player details updated\"},{\"id\":45,\"playerId\":27,\"creationDate\":\"2022-12-13T21:04:39.272+00:00\",\"auditCode\":\"005\",\"auditDescription\":\"Wallet balance updated\"},{\"id\":46,\"playerId\":27,\"creationDate\":\"2022-12-13T21:05:11.897+00:00\",\"auditCode\":\"005\",\"auditDescription\":\"Wallet balance updated\"}]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "TransactionMaintenance",
+			"description": "TransactionMaintenanceController is used to perform credit/debit transactions of amount to the wallet account of the player",
+			"item": [
+				{
+					"name": "getWalletAccount",
+					"request": {
+						"url": "http://localhost:8080/walletaccount/getWalletAccount/27",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "getWalletAccount is used to fetch the wallet account of the player by providing playerId as input\n1) Each wallet account has unique id as walletId, six digit random number as wallet accountNumber, current balance and currencyCode.\nURL:http://localhost:8080/walletaccount/getWalletAccount/27"
+					},
+					"response": [
+						{
+							"id": "31ff642f-b16b-4a26-acc5-6bb543ef4d8c",
+							"name": "getWalletAccount",
+							"originalRequest": {
+								"url": "http://localhost:8080/walletaccount/getWalletAccount/27",
+								"method": "GET",
+								"header": [],
+								"body": {}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 15:50:12 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 540,
+							"body": "{\"id\":18,\"accountNumber\":\"960315\",\"currentBalance\":80.0,\"playerId\":27,\"currencyCode\":\"EUR\"}"
+						}
+					]
+				},
+				{
+					"name": "getWalletBalance",
+					"request": {
+						"url": "http://localhost:8080/walletaccount/27",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "getWalletBalance is used to fetch the current balance as String message of the wallet account of the player by providing playerId as input\nURL : http://localhost:8080/walletaccount/27"
+					},
+					"response": [
+						{
+							"id": "e899c4aa-9320-474a-8900-95dda6d6a302",
+							"name": "getWalletBalance",
+							"originalRequest": {
+								"url": "http://localhost:8080/walletaccount/27",
+								"method": "GET",
+								"header": [],
+								"body": {}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 15:54:26 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 62,
+							"body": "{\"message\":\"The available balance in the account 960315 for the playerId 27 is 80.0EUR\"}"
+						}
+					]
+				},
+				{
+					"name": "getTransactionHistory",
+					"request": {
+						"url": "http://localhost:8080/walletaccount/transactionHistory/27",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": "getTransactionHistory is used to fetch transaction history of the player by providing playerId as input parameter.\nURL:http://localhost:8080/walletaccount/transactionHistory/27"
+					},
+					"response": [
+						{
+							"id": "44bdfa69-2fd9-41ca-9a27-1906ee912297",
+							"name": "getTransactionHistory",
+							"originalRequest": {
+								"url": "http://localhost:8080/walletaccount/transactionHistory/27",
+								"method": "GET",
+								"header": [],
+								"body": {}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 22:05:23 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 425,
+							"body": "[{\"id\":5,\"amount\":100.0,\"currencyCode\":\"EUR\",\"transactionType\":\"CREDIT\",\"transactionMessage\":\"Amount 100.0 EUR Credit successful\",\"currentBalance\":100.0,\"playerId\":27,\"timestamp\":\"2022-12-13T21:04:39.221+00:00\"},{\"id\":6,\"amount\":20.0,\"currencyCode\":\"EUR\",\"transactionType\":\"DEBIT\",\"transactionMessage\":\"Amount 20.0 EUR Debit successful\",\"currentBalance\":80.0,\"playerId\":27,\"timestamp\":\"2022-12-13T21:05:11.882+00:00\"},{\"id\":7,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"DEBIT\",\"transactionMessage\":\"Amount 10.0 EUR Debit successful\",\"currentBalance\":70.0,\"playerId\":27,\"timestamp\":\"2022-12-14T16:32:22.011+00:00\"},{\"id\":8,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"DEBIT\",\"transactionMessage\":\"Amount 10.0 EUR Debit successful\",\"currentBalance\":60.0,\"playerId\":27,\"timestamp\":\"2022-12-14T16:32:40.048+00:00\"},{\"id\":9,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"DEBIT\",\"transactionMessage\":\"Amount 10.0 EUR Debit successful\",\"currentBalance\":50.0,\"playerId\":27,\"timestamp\":\"2022-12-14T16:32:42.575+00:00\"},{\"id\":10,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"DEBIT\",\"transactionMessage\":\"Amount 10.0 EUR Debit successful\",\"currentBalance\":40.0,\"playerId\":27,\"timestamp\":\"2022-12-14T16:54:30.800+00:00\"},{\"id\":11,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"DEBIT\",\"transactionMessage\":\"Amount 10.0 EUR Debit successful\",\"currentBalance\":30.0,\"playerId\":27,\"timestamp\":\"2022-12-14T17:28:43.898+00:00\"},{\"id\":12,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"CREDIT\",\"transactionMessage\":\"Amount 10.0 EUR Credit successful\",\"currentBalance\":40.0,\"playerId\":27,\"timestamp\":\"2022-12-14T17:33:53.598+00:00\"},{\"id\":13,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"CREDIT\",\"transactionMessage\":\"Amount 10.0 EUR Credit successful\",\"currentBalance\":50.0,\"playerId\":27,\"timestamp\":\"2022-12-14T17:44:36.422+00:00\"}]"
+						}
+					]
+				},
+				{
+					"name": "performCredit",
+					"request": {
+						"url": "http://localhost:8080/walletaccount",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"13\",\n    \"amount\": \"10\",\n    \"currencyCode\": \"EUR\",\n    \"transactionType\": \"CREDIT\",\n    \"playerId\" : \"27\"\n}"
+						},
+						"description": "performCredit is used to perform credit transaction to the wallet account of the player only if the following conditions are satisfied.\n1) Id should be provoded by the caller as transactionId and it should be unique.\n2) transactionType should be 'Credit'.\n3) currencyCode should be specific to the country of the player.(Hint: Player should provide his country as a mandatory field during player creation)\nURL: http://localhost:8080/walletaccount"
+					},
+					"response": [
+						{
+							"id": "1fd23a09-fb6f-4e36-aa03-87dfeaea92f7",
+							"name": "performCredit",
+							"originalRequest": {
+								"url": "http://localhost:8080/walletaccount",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"13\",\n    \"amount\": \"10\",\n    \"currencyCode\": \"EUR\",\n    \"transactionType\": \"CREDIT\",\n    \"playerId\" : \"27\"\n}"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 17:44:36 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 199,
+							"body": "{\"id\":13,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"CREDIT\",\"transactionMessage\":\"Amount 10.0 EUR Credit successful\",\"currentBalance\":50.0,\"playerId\":27,\"timestamp\":\"2022-12-14T17:44:36.422+00:00\"}"
+						}
+					]
+				},
+				{
+					"name": "performDebit",
+					"request": {
+						"url": "http://localhost:8080/walletaccount",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"15\",\n    \"amount\": \"10\",\n    \"currencyCode\": \"EUR\",\n    \"transactionType\": \"DEBIT\",\n    \"playerId\" : \"27\"\n}"
+						},
+						"description": "performDebit is used to perform debit transaction to the wallet account of the player for the input playerId.\nThe transaction would be successful only if the following conditions are satisfied.\n1) The caller should supply unique id as transaction Id.\n2) The wallet account of the player should contains sufficient balance for the debit transaction.\n3) transactionType should be 'Debit'\n4) currencyCode should be specific to the Country of the player.(Hint: Player should specify a country during player creation)\nURL : http://localhost:8080/walletaccount"
+					},
+					"response": [
+						{
+							"id": "fd150704-4a9e-4ea6-9a99-6c05e54587a7",
+							"name": "performDebit",
+							"originalRequest": {
+								"url": "http://localhost:8080/walletaccount",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"15\",\n    \"amount\": \"10\",\n    \"currencyCode\": \"EUR\",\n    \"transactionType\": \"DEBIT\",\n    \"playerId\" : \"27\"\n}"
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "text",
+							"header": [
+								{
+									"name": "connection",
+									"key": "connection",
+									"value": "keep-alive",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"name": "content-type",
+									"key": "content-type",
+									"value": "application/json",
+									"description": "The mime type of this content"
+								},
+								{
+									"name": "date",
+									"key": "date",
+									"value": "Wed, 14 Dec 2022 22:09:35 GMT",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"name": "keep-alive",
+									"key": "keep-alive",
+									"value": "timeout=60",
+									"description": "Custom header"
+								},
+								{
+									"name": "transfer-encoding",
+									"key": "transfer-encoding",
+									"value": "chunked",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								}
+							],
+							"cookie": [],
+							"responseTime": 850,
+							"body": "{\"id\":15,\"amount\":10.0,\"currencyCode\":\"EUR\",\"transactionType\":\"DEBIT\",\"transactionMessage\":\"Amount 10.0 EUR Debit successful\",\"currentBalance\":40.0,\"playerId\":27,\"timestamp\":\"2022-12-14T22:09:35.704+00:00\"}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
